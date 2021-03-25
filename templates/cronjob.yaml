@@ -1,0 +1,29 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: kubeclone-cronjob-{{ .Release.Name }}
+spec:
+  jobTemplate:
+    metadata:
+      name: kubeclone-job-{{ .Release.Name }}
+    spec:
+      template:
+        spec:
+          containers:
+          - command:
+            - "{{ .Values.command }}"
+            image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            name: kubeclone-job-container-{{ .Release.Name }}
+            volumeMounts:
+            - name: config
+              mountPath: /config/rclone
+          restartPolicy: {{ .Values.restartPolicy }}
+          volumes:
+          - name: config
+            configMap:
+              name: kubeclone-configmap-{{ .Release.Name }}
+              items:
+              - key: rclone_config
+                path: rclone.conf
+  schedule: "{{ .Values.schedule }}"

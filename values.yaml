@@ -1,0 +1,16 @@
+# Default values for kubeclone.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: "rclone/rclone"
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+rclone_config: ""
+
+schedule: "*/5 * * * *"
+
+restartPolicy: Never
+
+command: "ls b2://sample"
