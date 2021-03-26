@@ -10,8 +10,12 @@ spec:
       template:
         spec:
           containers:
-          - command:
-            - "{{ .Values.command }}"
+          - args:
+            {{- range .Values.args }}
+            - {{ . }}
+            {{- end }}
+            - --config
+            - /config/rclone/rclone.conf
             image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
             imagePullPolicy: {{ .Values.image.pullPolicy }}
             name: kubeclone-job-container-{{ .Release.Name }}

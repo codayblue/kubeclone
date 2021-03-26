@@ -13,4 +13,4 @@ schedule: "*/5 * * * *"
 
 restartPolicy: Never
 
-command: "ls b2://sample"
+args:
